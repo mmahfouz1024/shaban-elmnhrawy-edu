@@ -47,11 +47,11 @@ class _ShabanElmnhrawyAppState extends State<ShabanElmnhrawyApp> {
       ],
       theme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF0F766E),
+        primaryColor: const Color(0xFF4338CA), // Royal Indigo
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0F766E),
-          primary: const Color(0xFF0F766E),
-          secondary: const Color(0xFF14B8A6),
+          seedColor: const Color(0xFF4338CA),
+          primary: const Color(0xFF4338CA),
+          secondary: const Color(0xFFF59E0B), // Warm Gold Amber
           surface: Colors.white,
         ),
         fontFamily: GoogleFonts.cairo().fontFamily,

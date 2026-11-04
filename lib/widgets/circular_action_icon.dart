@@ -18,7 +18,7 @@ class CircularActionIcon extends StatefulWidget {
     required this.label,
     this.subtitle,
     required this.onTap,
-    this.primaryColor = const Color(0xFF0F766E),
+    this.primaryColor = const Color(0xFF4338CA),
     this.secondaryColor,
     this.size = 80.0,
     this.badgeText,

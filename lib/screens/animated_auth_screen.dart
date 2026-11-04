@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/app_models.dart';
 import '../services/app_state.dart';
+import '../widgets/brand_logo.dart';
 
 /// الشاشة الترحيبية وتسجيل الدخول مع التحريك الاحترافي الكامل للوجو والمحتويات
-/// 1. يبدأ اللوجو في المنتصف ويكبر بنعومة، ثم يتحرك لأعلى الشاشة.
-/// 2. يظهر كارت تسجيل الدخول بحركة انزلاق وظهور انسيابي.
-/// 3. عند تسجيل الدخول، يختفي المحتوى بسلاسة وتظهر واجهة المستخدم التالية.
+/// اللوجو الجديد بألوان ملكية راقية (الأزرق النيلي الملكي والذهبي الدافئ) خالٍ تماماً من الأخضر
 class AnimatedAuthScreen extends StatefulWidget {
   final AppState appState;
 
@@ -140,7 +139,11 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF134E4A), Color(0xFF0F172A)],
+            colors: [
+              Color(0xFF0B0F19), // Deep Cosmic Midnight
+              Color(0xFF1E1B4B), // Royal Navy Indigo
+              Color(0xFF312E81), // Rich Sapphire Indigo
+            ],
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
           ),
@@ -155,16 +158,16 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // الدوائر الزخرفية الناعمة في الخلفية
+                    // تأثيرات هالة ضوئية دائرية في الخلفية
                     Positioned(
                       top: -80,
                       right: -80,
                       child: Container(
-                        width: 260,
-                        height: 260,
+                        width: 280,
+                        height: 280,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xFF14B8A6).withOpacity(0.08),
+                          color: const Color(0xFF6366F1).withValues(alpha: 0.12),
                         ),
                       ),
                     ),
@@ -172,84 +175,32 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                       bottom: -100,
                       left: -100,
                       child: Container(
-                        width: 300,
-                        height: 300,
+                        width: 320,
+                        height: 320,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xFF2DD4BF).withOpacity(0.06),
+                          color: const Color(0xFFF59E0B).withValues(alpha: 0.08),
                         ),
                       ),
                     ),
 
-                    // اللوجو المتحرك (يبدأ بالوسط ثم يتحرك لأعلى)
+                    // اللوجو الجديد المميز (يتحرك للأعلى باحترافية)
                     SlideTransition(
                       position: _logoSlide,
                       child: ScaleTransition(
                         scale: _logoScale,
                         child: FadeTransition(
                           opacity: _logoOpacity,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFF14B8A6), Color(0xFF0D9488)],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(0xFF14B8A6).withOpacity(0.4),
-                                      blurRadius: 25,
-                                      offset: const Offset(0, 8),
-                                    ),
-                                  ],
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.3),
-                                    width: 2.5,
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'ش',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 48,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              const Text(
-                                'الأستاذ شعبان المنهراوي',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 0.3,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'المرحلة الابتدائية والإعدادية • الحضور الذكي بالـ QR والماليات',
-                                style: TextStyle(
-                                  color: const Color(0xFF99F6E4).withOpacity(0.9),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                          child: const BrandLogo(
+                            size: 96,
+                            showGlow: true,
+                            showSubtitle: true,
                           ),
                         ),
                       ),
                     ),
 
-                    // كارت تسجيل الدخول الأنيق (يظهر بحركة انسيابية)
+                    // كارت تسجيل الدخول الراقي
                     Positioned(
                       bottom: isMobile ? 30 : 60,
                       child: SlideTransition(
@@ -264,7 +215,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.35),
+                                  color: Colors.black.withValues(alpha: 0.35),
                                   blurRadius: 30,
                                   offset: const Offset(0, 15),
                                 ),
@@ -345,7 +296,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
+                      color: Colors.black.withValues(alpha: 0.06),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -358,7 +309,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
               Icon(
                 icon,
                 size: 16,
-                color: isSelected ? const Color(0xFF0F766E) : const Color(0xFF64748B),
+                color: isSelected ? const Color(0xFF4338CA) : const Color(0xFF64748B),
               ),
               const SizedBox(width: 6),
               Text(
@@ -366,7 +317,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                 style: TextStyle(
                   fontSize: 12.5,
                   fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                  color: isSelected ? const Color(0xFF0F766E) : const Color(0xFF64748B),
+                  color: isSelected ? const Color(0xFF4338CA) : const Color(0xFF64748B),
                 ),
               ),
             ],
@@ -376,7 +327,6 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
     );
   }
 
-  // نموذج المعلم
   Widget _buildTeacherLoginForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -386,7 +336,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
           readOnly: true,
           decoration: InputDecoration(
             labelText: 'اسم الحساب',
-            prefixIcon: const Icon(Icons.verified_user_rounded, color: Color(0xFF0F766E)),
+            prefixIcon: const Icon(Icons.verified_user_rounded, color: Color(0xFF4338CA)),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -398,7 +348,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'كلمة المرور',
-            prefixIcon: const Icon(Icons.lock_rounded, color: Color(0xFF0F766E)),
+            prefixIcon: const Icon(Icons.lock_rounded, color: Color(0xFF4338CA)),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -412,7 +362,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
             });
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0F766E),
+            backgroundColor: const Color(0xFF4338CA),
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -428,7 +378,6 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
     );
   }
 
-  // نموذج الطالب
   Widget _buildStudentLoginForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -437,7 +386,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
           value: _selectedStudent,
           decoration: InputDecoration(
             labelText: 'اختر حساب الطالب',
-            prefixIcon: const Icon(Icons.badge_rounded, color: Color(0xFF0F766E)),
+            prefixIcon: const Icon(Icons.badge_rounded, color: Color(0xFF4338CA)),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -466,7 +415,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                   });
                 },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0F766E),
+            backgroundColor: const Color(0xFF4338CA),
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -481,7 +430,6 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
     );
   }
 
-  // نموذج ولي الأمر
   Widget _buildParentLoginForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -490,7 +438,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
           value: _selectedParent,
           decoration: InputDecoration(
             labelText: 'اختر حساب ولي الأمر',
-            prefixIcon: const Icon(Icons.family_restroom_rounded, color: Color(0xFF0F766E)),
+            prefixIcon: const Icon(Icons.family_restroom_rounded, color: Color(0xFF4338CA)),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -519,7 +467,7 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
                   });
                 },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0F766E),
+            backgroundColor: const Color(0xFF4338CA),
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

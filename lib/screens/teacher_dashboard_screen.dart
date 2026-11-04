@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../models/app_models.dart';
 import '../services/app_state.dart';
+import '../widgets/brand_logo.dart';
 import '../widgets/circular_action_icon.dart';
 
 /// لوحة تحكم المعلم (الأستاذ شعبان المنهراوي)
-/// تتميز بأيقونات دائرية تفاعلية جذابة في المنتصف، مع شريط علوي بسيط وزر تسجيل خروج
+/// بألوان عصرية وجذابة (أزرق نيلي ملكي، أزرق سفير، ذهبي، وبنفسجي) - بدون لون أخضر
 class TeacherDashboardScreen extends StatefulWidget {
   final AppState appState;
 
@@ -56,22 +57,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
         elevation: 1,
         title: Row(
           children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF0F766E), Color(0xFF14B8A6)],
-                ),
-              ),
-              child: const Center(
-                child: Text(
-                  'ش',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+            const BrandLogo(size: 34, showGlow: false, showSubtitle: false),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +85,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
           TextButton.icon(
             onPressed: () => app.logout(),
             style: TextButton.styleFrom(
-              foregroundColor: Colors.red.shade700,
+              foregroundColor: const Color(0xFFDC2626),
               padding: const EdgeInsets.symmetric(horizontal: 14),
             ),
             icon: const Icon(Icons.logout_rounded, size: 18),
@@ -159,7 +145,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               'الطلاب المسجلين',
               '${app.students.length} طالب',
               'ابتدائي وإعدادي',
-              const Color(0xFF0F766E),
+              const Color(0xFF4338CA), // Royal Indigo
               Icons.people_alt_rounded,
               cardWidth,
             ),
@@ -167,7 +153,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               'حضور اليوم بالـ QR',
               '${today.length} طالب',
               'حاضر الآن: $presentNow',
-              const Color(0xFF16A34A),
+              const Color(0xFF0284C7), // Sky Sapphire
               Icons.qr_code_scanner_rounded,
               cardWidth,
             ),
@@ -175,7 +161,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               'المحصل من الاشتراكات',
               '${app.totalIncome.toInt()} ج.م',
               'صافي الأرباح: ${app.netProfit.toInt()} ج.م',
-              const Color(0xFF2563EB),
+              const Color(0xFF2563EB), // Blue
               Icons.account_balance_wallet_rounded,
               cardWidth,
             ),
@@ -183,7 +169,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               'المتبقي على الطلاب',
               '${app.totalBalanceDue.toInt()} ج.م',
               'مستحقات آجلة',
-              const Color(0xFFD97706),
+              const Color(0xFFD97706), // Amber Gold
               Icons.receipt_long_rounded,
               cardWidth,
             ),
@@ -210,7 +196,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -232,7 +218,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               ),
               CircleAvatar(
                 radius: 14,
-                backgroundColor: color.withOpacity(0.12),
+                backgroundColor: color.withValues(alpha: 0.12),
                 child: Icon(icon, size: 16, color: color),
               ),
             ],
@@ -256,7 +242,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
     );
   }
 
-  // قسم الأيقونات الدائرية في المنتصف
+  // قسم الأيقونات الدائرية في المنتصف بألوان ملكية جذابة
   Widget _buildCircularIconsSection(BuildContext context, AppState app, bool isMobile) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -266,7 +252,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F766E).withOpacity(0.04),
+            color: const Color(0xFF4338CA).withValues(alpha: 0.05),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -299,8 +285,8 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 icon: Icons.qr_code_scanner_rounded,
                 label: 'ماسح الـ QR',
                 subtitle: 'حضور وانصراف',
-                primaryColor: const Color(0xFF0F766E),
-                secondaryColor: const Color(0xFF14B8A6),
+                primaryColor: const Color(0xFF4338CA), // Royal Indigo
+                secondaryColor: const Color(0xFF6366F1),
                 badgeText: 'سريع ⚡',
                 onTap: () => _openScannerModal(context, app),
               ),
@@ -308,7 +294,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 icon: Icons.person_add_alt_1_rounded,
                 label: 'إضافة طالب',
                 subtitle: 'وتوليد الـ QR',
-                primaryColor: const Color(0xFF2563EB),
+                primaryColor: const Color(0xFF2563EB), // Sapphire Blue
                 secondaryColor: const Color(0xFF60A5FA),
                 onTap: () => _openAddStudentModal(context, app),
               ),
@@ -316,7 +302,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 icon: Icons.badge_rounded,
                 label: 'كارنيهات الطلاب',
                 subtitle: 'عرض وطباعة',
-                primaryColor: const Color(0xFF7C3AED),
+                primaryColor: const Color(0xFF7C3AED), // Royal Purple
                 secondaryColor: const Color(0xFFA78BFA),
                 onTap: () => _openStudentCardsListModal(context, app),
               ),
@@ -324,15 +310,15 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 icon: Icons.family_restroom_rounded,
                 label: 'أولياء الأمور',
                 subtitle: 'مراسلة واتساب',
-                primaryColor: const Color(0xFF16A34A),
-                secondaryColor: const Color(0xFF4ADE80),
+                primaryColor: const Color(0xFFE11D48), // Rose Crimson
+                secondaryColor: const Color(0xFFFB7185),
                 onTap: () => _openParentsListModal(context, app),
               ),
               CircularActionIcon(
                 icon: Icons.payments_rounded,
                 label: 'الماليات والاشتراكات',
                 subtitle: 'إيصالات السداد',
-                primaryColor: const Color(0xFFD97706),
+                primaryColor: const Color(0xFFD97706), // Warm Gold Amber
                 secondaryColor: const Color(0xFFFBBF24),
                 onTap: () => _openFinancesModal(context, app),
               ),
@@ -340,7 +326,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 icon: Icons.groups_rounded,
                 label: 'المجموعات',
                 subtitle: 'ابتدائي وإعدادي',
-                primaryColor: const Color(0xFF0284C7),
+                primaryColor: const Color(0xFF0284C7), // Deep Cyan Blue
                 secondaryColor: const Color(0xFF38BDF8),
                 onTap: () => _openGroupsModal(context, app),
               ),
@@ -379,7 +365,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               ElevatedButton.icon(
                 onPressed: () => _openScannerModal(context, app),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F766E),
+                  backgroundColor: const Color(0xFF4338CA),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -425,19 +411,19 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                       DataCell(Text(r.studentName, style: const TextStyle(fontWeight: FontWeight.w700))),
                       DataCell(Text(r.grade)),
                       DataCell(Text(r.groupName)),
-                      DataCell(Text(r.checkInTime, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold))),
-                      DataCell(Text(r.checkOutTime ?? 'داخل الحصة', style: TextStyle(color: isPresent ? Colors.orange : Colors.teal, fontWeight: FontWeight.bold))),
+                      DataCell(Text(r.checkInTime, style: const TextStyle(color: Color(0xFF4338CA), fontWeight: FontWeight.bold))),
+                      DataCell(Text(r.checkOutTime ?? 'داخل الحصة', style: TextStyle(color: isPresent ? const Color(0xFFD97706) : const Color(0xFF2563EB), fontWeight: FontWeight.bold))),
                       DataCell(
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: isPresent ? Colors.green.shade50 : Colors.blue.shade50,
+                            color: isPresent ? const Color(0xFFEEF2FF) : const Color(0xFFF1F5F9),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            isPresent ? 'حاضر الآن 🟢' : 'انصرف 🏠',
+                            isPresent ? 'حاضر الآن 🔵' : 'انصرف 🏠',
                             style: TextStyle(
-                              color: isPresent ? Colors.green.shade800 : Colors.blue.shade800,
+                              color: isPresent ? const Color(0xFF4338CA) : const Color(0xFF475569),
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
                             ),
@@ -453,7 +439,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                             app.launchWhatsApp(r.parentWhatsapp, msg);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF25D366),
+                            backgroundColor: const Color(0xFF2563EB),
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -472,10 +458,6 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
     );
   }
 
-  // ==========================================================================
-  // النوافذ المنبثقة التفاعلية (Modals)
-  // ==========================================================================
-
   // 1. نافذة ماسح الـ QR الذكي
   void _openScannerModal(BuildContext context, AppState app) {
     showDialog(
@@ -484,7 +466,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(
           children: [
-            Icon(Icons.qr_code_scanner_rounded, color: Color(0xFF0F766E)),
+            Icon(Icons.qr_code_scanner_rounded, color: Color(0xFF4338CA)),
             SizedBox(width: 8),
             Text('ماسح كود الطالب الذكي', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
@@ -504,7 +486,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.camera_alt_rounded, color: Color(0xFF2DD4BF), size: 48),
+                    Icon(Icons.camera_alt_rounded, color: Color(0xFF818CF8), size: 48),
                     SizedBox(height: 8),
                     Text('الكاميرا جاهزة لقراءة كود الطالب', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
                     SizedBox(height: 4),
@@ -527,14 +509,14 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                       contentPadding: EdgeInsets.zero,
                       leading: CircleAvatar(
                         radius: 14,
-                        backgroundColor: const Color(0xFF0F766E).withOpacity(0.1),
-                        child: Text('${i + 1}', style: const TextStyle(fontSize: 10, color: Color(0xFF0F766E), fontWeight: FontWeight.bold)),
+                        backgroundColor: const Color(0xFF4338CA).withValues(alpha: 0.1),
+                        child: Text('${i + 1}', style: const TextStyle(fontSize: 10, color: Color(0xFF4338CA), fontWeight: FontWeight.bold)),
                       ),
                       title: Text(s.name, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold)),
                       subtitle: Text('${s.code} • ${s.grade}', style: const TextStyle(fontSize: 10)),
                       trailing: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0F766E),
+                          backgroundColor: const Color(0xFF4338CA),
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         ),
@@ -545,7 +527,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('تم مسح كود الطالب: ${s.name} (${rec.status == AttendanceStatus.present ? "حضور" : "انصراف"}) وإرسال الإشعار لولي الأمر!'),
-                                backgroundColor: const Color(0xFF0F766E),
+                                backgroundColor: const Color(0xFF4338CA),
                               ),
                             );
                           }
@@ -625,7 +607,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('إلغاء')),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0F766E), foregroundColor: Colors.white),
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4338CA), foregroundColor: Colors.white),
               onPressed: () {
                 if (nameCtrl.text.trim().isEmpty) return;
                 final newStu = Student(
@@ -645,7 +627,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 app.addStudent(newStu);
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('تم تسجيل الطالب ${newStu.name} وتوليد رمز الـ QR بنجاح!'), backgroundColor: Colors.teal),
+                  SnackBar(content: Text('تم تسجيل الطالب ${newStu.name} وتوليد رمز الـ QR بنجاح!'), backgroundColor: const Color(0xFF4338CA)),
                 );
               },
               child: const Text('حفظ وتوليد الـ QR 🚀'),
@@ -678,7 +660,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                   padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: Colors.teal),
+                    border: Border.all(color: const Color(0xFF4338CA)),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: QrImageView(data: s.qrPayload, size: 36),
@@ -720,7 +702,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFF0F766E), width: 2),
+            border: Border.all(color: const Color(0xFF4338CA), width: 2),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -728,14 +710,16 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: const BoxDecoration(
-                  color: Color(0xFF0F766E),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF4338CA), Color(0xFF312E81)],
+                  ),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
                 ),
                 child: const Column(
                   children: [
                     Text('سنتر الأستاذ شعبان المنهراوي', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                     SizedBox(height: 2),
-                    Text('بطاقة حضور الطالب الذكية بالـ QR Code', style: TextStyle(color: Color(0xFF99F6E4), fontSize: 11)),
+                    Text('بطاقة حضور الطالب الذكية بالـ QR Code', style: TextStyle(color: Color(0xFFFCD34D), fontSize: 11)),
                   ],
                 ),
               ),
@@ -743,19 +727,26 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF0F766E), width: 1.5),
+                  border: Border.all(color: const Color(0xFF4338CA), width: 1.5),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: QrImageView(
                   data: student.qrPayload,
                   size: 180,
-                  foregroundColor: const Color(0xFF0F172A),
+                  dataModuleStyle: const QrDataModuleStyle(
+                    dataModuleShape: QrDataModuleShape.square,
+                    color: Color(0xFF0F172A),
+                  ),
+                  eyeStyle: const QrEyeStyle(
+                    eyeShape: QrEyeShape.square,
+                    color: Color(0xFF4338CA),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
               Text(student.name, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
               const SizedBox(height: 4),
-              Text('${student.grade} • ${student.code}', style: const TextStyle(color: Color(0xFF0F766E), fontWeight: FontWeight.bold)),
+              Text('${student.grade} • ${student.code}', style: const TextStyle(color: Color(0xFF4338CA), fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -812,8 +803,8 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
               final p = app.parents[i];
               return ListTile(
                 leading: const CircleAvatar(
-                  backgroundColor: Color(0xFFE8F5E9),
-                  child: Icon(Icons.person, color: Color(0xFF16A34A)),
+                  backgroundColor: Color(0xFFEEF2FF),
+                  child: Icon(Icons.person, color: Color(0xFF4338CA)),
                 ),
                 title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                 subtitle: Text('هاتف: ${p.phone} • كود: ${p.accessCode}'),
@@ -823,7 +814,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                   },
                   icon: const Icon(Icons.chat_rounded, size: 14),
                   label: const Text('واتساب', style: TextStyle(fontSize: 11)),
-                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF25D366), foregroundColor: Colors.white),
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2563EB), foregroundColor: Colors.white),
                 ),
               );
             },
@@ -851,13 +842,13 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
             children: [
               Container(
                 padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(color: const Color(0xFFF0FDF4), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.green.shade200)),
+                decoration: BoxDecoration(color: const Color(0xFFEEF2FF), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.indigo.shade200)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(children: [const Text('المحصل', style: TextStyle(fontSize: 11)), Text('${app.totalIncome.toInt()} ج.م', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green))]),
+                    Column(children: [const Text('المحصل', style: TextStyle(fontSize: 11)), Text('${app.totalIncome.toInt()} ج.م', style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF4338CA)))]),
                     Column(children: [const Text('المصروفات', style: TextStyle(fontSize: 11)), Text('${app.totalExpenses.toInt()} ج.م', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red))]),
-                    Column(children: [const Text('صافي الربح', style: TextStyle(fontSize: 11)), Text('${app.netProfit.toInt()} ج.م', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal))]),
+                    Column(children: [const Text('صافي الربح', style: TextStyle(fontSize: 11)), Text('${app.netProfit.toInt()} ج.م', style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2563EB)))]),
                   ],
                 ),
               ),
@@ -875,7 +866,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                       dense: true,
                       title: Text(pay.studentName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                       subtitle: Text(pay.title, style: const TextStyle(fontSize: 10)),
-                      trailing: Text('${pay.paidAmount.toInt()} ج.م', style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                      trailing: Text('${pay.paidAmount.toInt()} ج.م', style: const TextStyle(color: Color(0xFF4338CA), fontWeight: FontWeight.bold)),
                     );
                   },
                 ),
@@ -910,7 +901,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                 subtitle: Text('المواعيد: ${g.days} (${g.time}) • اشتراك: ${g.monthlyFee.toInt()} ج.م'),
                 trailing: Chip(
                   label: Text(g.stage == StudentStage.primary ? 'ابتدائي' : 'إعدادي', style: const TextStyle(fontSize: 10, color: Colors.white)),
-                  backgroundColor: g.stage == StudentStage.primary ? Colors.green : Colors.blue,
+                  backgroundColor: g.stage == StudentStage.primary ? const Color(0xFF4338CA) : const Color(0xFF2563EB),
                 ),
               );
             },
