@@ -27,86 +27,13 @@
     body {
       margin: 0;
       padding: 0;
-      background: #0b0f19;
+      background: #070D1E;
       font-family: 'Cairo', sans-serif;
       overflow: hidden;
-    }
-    #loading-indicator {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at center, #1e1b4b 0%, #0b0f19 100%);
-      color: #ffffff;
-      z-index: 99999;
-      transition: opacity 0.5s ease;
-    }
-    .loading-logo {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1e293b 0%, #0f172a 70%, #070b19 100%);
-      border: 4px solid #f59e0b;
-      box-shadow: 0 0 0 2px #b45309, 0 12px 35px rgba(245, 158, 11, 0.4), inset 0 0 15px rgba(251, 191, 36, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      animation: pulseLogo 2s infinite ease-in-out;
-    }
-    @keyframes pulseLogo {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #b45309, 0 12px 35px rgba(245, 158, 11, 0.35); }
-      50% { transform: scale(1.06); box-shadow: 0 0 0 3px #fbbf24, 0 18px 45px rgba(245, 158, 11, 0.6); }
-    }
-    .loading-title {
-      font-size: 1.3rem;
-      font-weight: 900;
-      margin-bottom: 6px;
-      letter-spacing: 0.3px;
-    }
-    .loading-sub {
-      font-size: 0.86rem;
-      color: #cbd5e1;
-      margin-bottom: 24px;
-    }
-    .loading-spinner {
-      width: 34px;
-      height: 34px;
-      border: 3px solid rgba(255, 255, 255, 0.12);
-      border-top-color: #f59e0b;
-      border-right-color: #60a5fa;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div id="loading-indicator">
-    <div class="loading-logo">
-      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-      </svg>
-    </div>
-    <div class="loading-title">منصة الأستاذ شعبان المنهراوي</div>
-    <div class="loading-sub">جاري تشغيل النظام...</div>
-    <div class="loading-spinner"></div>
-  </div>
-
-  <script>
-    window.addEventListener('flutter-first-frame', function () {
-      const loader = document.getElementById('loading-indicator');
-      if (loader) {
-        loader.style.opacity = '0';
-        setTimeout(() => loader.remove(), 500);
-      }
-    });
-  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
