@@ -581,7 +581,7 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen>
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<StudentStage>(
-                    value: stage,
+                    initialValue: stage,
                     decoration: const InputDecoration(labelText: 'المرحلة الدراسية', border: OutlineInputBorder()),
                     items: const [
                       DropdownMenuItem(value: StudentStage.primary, child: Text('المرحلة الابتدائية')),

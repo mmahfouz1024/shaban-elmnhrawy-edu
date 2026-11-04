@@ -44,23 +44,21 @@
       transition: opacity 0.5s ease;
     }
     .loading-logo {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1, #4338ca, #1e1b4b);
-      border: 3px solid #fbbf24;
+      background: radial-gradient(circle, #1e293b 0%, #0f172a 70%, #070b19 100%);
+      border: 4px solid #f59e0b;
+      box-shadow: 0 0 0 2px #b45309, 0 12px 35px rgba(245, 158, 11, 0.4), inset 0 0 15px rgba(251, 191, 36, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 42px;
-      font-weight: 900;
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.45), 0 0 20px rgba(245, 158, 11, 0.3);
       margin-bottom: 20px;
-      animation: pulseLogo 1.8s infinite ease-in-out;
+      animation: pulseLogo 2s infinite ease-in-out;
     }
     @keyframes pulseLogo {
-      0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.45); }
-      50% { transform: scale(1.07); box-shadow: 0 16px 40px rgba(99, 102, 241, 0.65), 0 0 25px rgba(245, 158, 11, 0.4); }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #b45309, 0 12px 35px rgba(245, 158, 11, 0.35); }
+      50% { transform: scale(1.06); box-shadow: 0 0 0 3px #fbbf24, 0 18px 45px rgba(245, 158, 11, 0.6); }
     }
     .loading-title {
       font-size: 1.3rem;
@@ -77,8 +75,8 @@
       width: 34px;
       height: 34px;
       border: 3px solid rgba(255, 255, 255, 0.12);
-      border-top-color: #818cf8;
-      border-right-color: #fbbf24;
+      border-top-color: #f59e0b;
+      border-right-color: #60a5fa;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -89,7 +87,12 @@
 </head>
 <body>
   <div id="loading-indicator">
-    <div class="loading-logo">ش</div>
+    <div class="loading-logo">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
     <div class="loading-title">منصة الأستاذ شعبان المنهراوي</div>
     <div class="loading-sub">جاري تشغيل النظام...</div>
     <div class="loading-spinner"></div>

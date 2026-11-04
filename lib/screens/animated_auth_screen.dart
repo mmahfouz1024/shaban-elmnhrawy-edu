@@ -3,8 +3,11 @@ import '../models/app_models.dart';
 import '../services/app_state.dart';
 import '../widgets/brand_logo.dart';
 
-/// الشاشة الترحيبية وتسجيل الدخول مع التحريك الاحترافي الكامل للوجو والمحتويات
-/// اللوجو الجديد بألوان ملكية راقية (الأزرق النيلي الملكي والذهبي الدافئ) خالٍ تماماً من الأخضر
+/// الشاشة الترحيبية وتسجيل الدخول المطابقة تماماً للتصميم المرجعي الفاخر:
+/// - خلفية كحلية كونية مع شبكة خطوط ونقاط هندسية كوكبية (Constellation Network)
+/// - ميدالية ذهبية ثلاثية الأبعاد في الأعلى (قبعة التخرج + كتاب العلم + أغصان الغار + نجوم التفوق)
+/// - كارت أبيض ناصع ذو حواف مستديرة يحوي حقول "اسم المستخدم" و"كلمة المرور" وزر "دخول" الداكن
+/// - تحريك احترافي للظهور والخروج عند تسجيل الدخول
 class AnimatedAuthScreen extends StatefulWidget {
   final AppState appState;
 
@@ -19,19 +22,24 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
   late AnimationController _introController;
   late Animation<double> _logoScale;
   late Animation<double> _logoOpacity;
-  late Animation<Offset> _logoSlide;
-  late Animation<double> _loginCardOpacity;
-  late Animation<Offset> _loginCardSlide;
+  late Animation<double> _cardOpacity;
+  late Animation<Offset> _cardSlide;
+  late Animation<double> _logoSlideY;
 
   late AnimationController _exitController;
   late Animation<double> _exitOpacity;
   late Animation<Offset> _exitSlide;
 
-  int _selectedRoleIndex = 0; // 0: معلم, 1: طالب, 2: ولي أمر
-  final TextEditingController _passwordController = TextEditingController(text: 'admin');
+  // حالة النماذج والأدوار
+  int _selectedRole = 0; // 0: معلم (أدمن), 1: طالب, 2: ولي أمر
+  final TextEditingController _usernameController =
+      TextEditingController(text: 'الأستاذ شعبان المنهراوي');
+  final TextEditingController _passwordController =
+      TextEditingController(text: '••••••••');
+  bool _obscurePassword = true;
+
   Student? _selectedStudent;
   Parent? _selectedParent;
-  final TextEditingController _manualCodeController = TextEditingController();
 
   @override
   void initState() {
@@ -44,13 +52,13 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
       _selectedParent = widget.appState.parents.first;
     }
 
-    // حركة الدخول الأولى (اللوجو بالمنتصف ثم يصعد لأعلى ويظهر كارت الدخول)
+    // حركة الدخول: اللوجو يظهر بالمنتصف ثم يصعد لأعلى ويكشف عن كارت تسجيل الدخول
     _introController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
+      duration: const Duration(milliseconds: 2000),
     );
 
-    _logoScale = Tween<double>(begin: 0.5, end: 1.0).animate(
+    _logoScale = Tween<double>(begin: 0.65, end: 1.0).animate(
       CurvedAnimation(
         parent: _introController,
         curve: const Interval(0.0, 0.45, curve: Curves.easeOutBack),
@@ -64,36 +72,33 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
       ),
     );
 
-    // صعود اللوجو من المنتصف إلى الأعلى
-    _logoSlide = Tween<Offset>(
-      begin: const Offset(0.0, 0.25),
-      end: const Offset(0.0, -0.32),
-    ).animate(
+    // صعود اللوجو من المنتصف لأعلى الكارت
+    _logoSlideY = Tween<double>(begin: 0.15, end: 0.0).animate(
       CurvedAnimation(
         parent: _introController,
-        curve: const Interval(0.48, 0.85, curve: Curves.easeInOutCubic),
+        curve: const Interval(0.40, 0.80, curve: Curves.easeInOutCubic),
       ),
     );
 
-    // ظهور كارت تسجيل الدخول بعد صعود اللوجو
-    _loginCardOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+    // ظهور كارت الدخول الأبيض
+    _cardOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _introController,
-        curve: const Interval(0.65, 1.0, curve: Curves.easeOut),
+        curve: const Interval(0.55, 1.0, curve: Curves.easeOut),
       ),
     );
 
-    _loginCardSlide = Tween<Offset>(
-      begin: const Offset(0.0, 0.15),
+    _cardSlide = Tween<Offset>(
+      begin: const Offset(0.0, 0.20),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: _introController,
-        curve: const Interval(0.65, 1.0, curve: Curves.easeOutCubic),
+        curve: const Interval(0.55, 1.0, curve: Curves.easeOutCubic),
       ),
     );
 
-    // حركة الخروج الاحترافية عند الضغط على تسجيل الدخول
+    // حركة الخروج عند تسجيل الدخول
     _exitController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -105,12 +110,11 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
 
     _exitSlide = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(0.0, -0.08),
+      end: const Offset(0.0, -0.06),
     ).animate(
       CurvedAnimation(parent: _exitController, curve: Curves.easeInOutCubic),
     );
 
-    // بدء الحركة التلقائية
     _introController.forward();
   }
 
@@ -118,14 +122,33 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
   void dispose() {
     _introController.dispose();
     _exitController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
-    _manualCodeController.dispose();
     super.dispose();
   }
 
-  Future<void> _performAnimatedLogin(VoidCallback loginAction) async {
+  void _onRoleChanged(int role) {
+    setState(() {
+      _selectedRole = role;
+      if (role == 0) {
+        _usernameController.text = 'الأستاذ شعبان المنهراوي';
+      } else if (role == 1 && _selectedStudent != null) {
+        _usernameController.text = _selectedStudent!.name;
+      } else if (role == 2 && _selectedParent != null) {
+        _usernameController.text = _selectedParent!.name;
+      }
+    });
+  }
+
+  Future<void> _handleLogin() async {
     await _exitController.forward();
-    loginAction();
+    if (_selectedRole == 0) {
+      widget.appState.loginAsTeacher();
+    } else if (_selectedRole == 1) {
+      widget.appState.loginAsStudent(_selectedStudent ?? widget.appState.students.first);
+    } else {
+      widget.appState.loginAsParent(_selectedParent ?? widget.appState.parents.first);
+    }
   }
 
   @override
@@ -134,171 +157,356 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
     final isMobile = size.width < 600;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF0B0F19), // Deep Cosmic Midnight
-              Color(0xFF1E1B4B), // Royal Navy Indigo
-              Color(0xFF312E81), // Rich Sapphire Indigo
-            ],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          ),
-        ),
-        child: AnimatedBuilder(
-          animation: Listenable.merge([_introController, _exitController]),
-          builder: (context, child) {
-            return FadeTransition(
-              opacity: _exitOpacity,
-              child: SlideTransition(
-                position: _exitSlide,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // تأثيرات هالة ضوئية دائرية في الخلفية
-                    Positioned(
-                      top: -80,
-                      right: -80,
-                      child: Container(
-                        width: 280,
-                        height: 280,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xFF6366F1).withValues(alpha: 0.12),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -100,
-                      left: -100,
-                      child: Container(
-                        width: 320,
-                        height: 320,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xFFF59E0B).withValues(alpha: 0.08),
-                        ),
-                      ),
-                    ),
-
-                    // اللوجو الجديد المميز (يتحرك للأعلى باحترافية)
-                    SlideTransition(
-                      position: _logoSlide,
-                      child: ScaleTransition(
-                        scale: _logoScale,
-                        child: FadeTransition(
-                          opacity: _logoOpacity,
-                          child: const BrandLogo(
-                            size: 96,
-                            showGlow: true,
-                            showSubtitle: true,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // كارت تسجيل الدخول الراقي
-                    Positioned(
-                      bottom: isMobile ? 30 : 60,
-                      child: SlideTransition(
-                        position: _loginCardSlide,
-                        child: FadeTransition(
-                          opacity: _loginCardOpacity,
-                          child: Container(
-                            width: isMobile ? size.width * 0.92 : 460,
-                            padding: const EdgeInsets.all(26),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.35),
-                                  blurRadius: 30,
-                                  offset: const Offset(0, 15),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  'تسجيل الدخول للنظام',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900,
-                                    color: Color(0xFF0F172A),
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                const Text(
-                                  'حدد صفة الدخول للمتابعة',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 12.5,
-                                    color: Color(0xFF64748B),
-                                  ),
-                                ),
-                                const SizedBox(height: 18),
-
-                                // شريط اختيار الدور: معلم / طالب / ولي أمر
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF1F5F9),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      _buildRoleTab('معلم / إدارة', 0, Icons.school_rounded),
-                                      _buildRoleTab('طالب', 1, Icons.person_rounded),
-                                      _buildRoleTab('ولي أمر', 2, Icons.family_restroom_rounded),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 18),
-
-                                // محتوى نموذج تسجيل الدخول حسب الدور المحدد
-                                if (_selectedRoleIndex == 0) _buildTeacherLoginForm(),
-                                if (_selectedRoleIndex == 1) _buildStudentLoginForm(),
-                                if (_selectedRoleIndex == 2) _buildParentLoginForm(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+      backgroundColor: const Color(0xFF070D1E),
+      body: Stack(
+        children: [
+          // 1. الخلفية الكونية المذهبة مع شبكة الخطوط الهندسية (Constellation Effect)
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(0.0, -0.15),
+                  radius: 1.25,
+                  colors: [
+                    Color(0xFF14244F), // أزرق كحلي أفتح بالوسط
+                    Color(0xFF0D1735), // تدرج داكن
+                    Color(0xFF070B1A), // أطراف داكنة جداً
                   ],
+                  stops: [0.0, 0.55, 1.0],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+
+          // شبكة الخطوط والنقاط الكوكبية الهندسية
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _ConstellationPainter(),
+            ),
+          ),
+
+          // 2. المحتوى الرئيسي المتحرك
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              child: AnimatedBuilder(
+                animation: Listenable.merge([_introController, _exitController]),
+                builder: (context, child) {
+                  return FadeTransition(
+                    opacity: _exitOpacity,
+                    child: SlideTransition(
+                      position: _exitSlide,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // اللوجو الميدالية الذهبية الفاخرة (يصعد بانسيابية لمكانه)
+                          Transform.translate(
+                            offset: Offset(0, _logoSlideY.value * 120),
+                            child: ScaleTransition(
+                              scale: _logoScale,
+                              child: FadeTransition(
+                                opacity: _logoOpacity,
+                                child: const BrandLogo(
+                                  size: 112,
+                                  showGlow: true,
+                                  showSubtitle: false,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // كارت تسجيل الدخول الأبيض المطابق للصورة تماماً
+                          SlideTransition(
+                            position: _cardSlide,
+                            child: FadeTransition(
+                              opacity: _cardOpacity,
+                              child: _buildLoginCard(isMobile, size.width),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildRoleTab(String title, int index, IconData icon) {
-    final isSelected = _selectedRoleIndex == index;
+  /// كارت تسجيل الدخول الأبيض الاحترافي المتطابق مع الصورة
+  Widget _buildLoginCard(bool isMobile, double screenWidth) {
+    return Container(
+      width: isMobile ? screenWidth * 0.92 : 390,
+      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 28),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.38),
+            blurRadius: 36,
+            spreadRadius: 2,
+            offset: const Offset(0, 14),
+          ),
+          BoxShadow(
+            color: const Color(0xFF1E2548).withValues(alpha: 0.15),
+            blurRadius: 18,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // عنوان الكارت
+          const Text(
+            'تسجيل الدخول',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              color: Color(0xFF1E2548),
+              letterSpacing: 0.3,
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'منظومة الأستاذ شعبان المنهراوي التعليمية',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11.5,
+              color: Color(0xFF64748B),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 22),
+
+          // حقل اسم المستخدم (مع إطار مذهب ناعم كما بالصورة المرجعية)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: const Color(0xFFD4AF37), // إطار ذهبي كما بالصورة
+                width: 1.4,
+              ),
+            ),
+            child: TextField(
+              controller: _usernameController,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontSize: 13.5,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E293B),
+              ),
+              decoration: const InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                border: InputBorder.none,
+                hintText: 'اسم المستخدم',
+                hintStyle: TextStyle(fontSize: 12.5, color: Color(0xFF94A3B8)),
+                prefixIcon: Icon(
+                  Icons.person_outline_rounded,
+                  color: Color(0xFF64748B),
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 14),
+
+          // حقل كلمة المرور (مع أيقونة القفل وزر إظهار/إخفاء الباسورد)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: const Color(0xFFCBD5E1),
+                width: 1.2,
+              ),
+            ),
+            child: TextField(
+              controller: _passwordController,
+              obscureText: _obscurePassword,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontSize: 13.5,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E293B),
+              ),
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                border: InputBorder.none,
+                hintText: 'كلمة المرور',
+                hintStyle: const TextStyle(fontSize: 12.5, color: Color(0xFF94A3B8)),
+                prefixIcon: const Icon(
+                  Icons.lock_outline_rounded,
+                  color: Color(0xFF64748B),
+                  size: 20,
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: const Color(0xFF64748B),
+                    size: 19,
+                  ),
+                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // زر "دخول" الكحلي الداكن المطابق للصورة
+          SizedBox(
+            height: 45,
+            child: ElevatedButton(
+              onPressed: _handleLogin,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1E2548), // كحلي غامق فاخر
+                foregroundColor: Colors.white,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'دخول',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(Icons.login_rounded, size: 19, color: Colors.white),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // شريط اختيار الحساب السريع (معلم / طالب / ولي أمر) لسهولة التجربة
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                _buildFastRoleChip('أستاذ / إدارة', 0, Icons.school_rounded),
+                _buildFastRoleChip('طالب', 1, Icons.person_rounded),
+                _buildFastRoleChip('ولي أمر', 2, Icons.family_restroom_rounded),
+              ],
+            ),
+          ),
+
+          // خيارات إضافية عند اختيار طالب أو ولي أمر للاختيار المباشر
+          if (_selectedRole == 1) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<Student>(
+                  value: _selectedStudent,
+                  isExpanded: true,
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF1E293B)),
+                  items: widget.appState.students.map((s) {
+                    return DropdownMenuItem<Student>(
+                      value: s,
+                      child: Text('${s.name} • ${s.grade}', overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        _selectedStudent = val;
+                        _usernameController.text = val.name;
+                      });
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+
+          if (_selectedRole == 2) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<Parent>(
+                  value: _selectedParent,
+                  isExpanded: true,
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF1E293B)),
+                  items: widget.appState.parents.map((p) {
+                    return DropdownMenuItem<Parent>(
+                      value: p,
+                      child: Text('${p.name} (${p.phone})', overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        _selectedParent = val;
+                        _usernameController.text = val.name;
+                      });
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFastRoleChip(String label, int roleIndex, IconData icon) {
+    final isSelected = _selectedRole == roleIndex;
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => _selectedRoleIndex = index),
+        onTap: () => _onRoleChanged(roleIndex),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 7),
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 4,
-                      offset: const Offset(0, 2),
+                      offset: const Offset(0, 1),
                     ),
                   ]
                 : [],
@@ -308,16 +516,16 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
             children: [
               Icon(
                 icon,
-                size: 16,
-                color: isSelected ? const Color(0xFF4338CA) : const Color(0xFF64748B),
+                size: 14,
+                color: isSelected ? const Color(0xFF1E2548) : const Color(0xFF64748B),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               Text(
-                title,
+                label,
                 style: TextStyle(
-                  fontSize: 12.5,
+                  fontSize: 11.5,
                   fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                  color: isSelected ? const Color(0xFF4338CA) : const Color(0xFF64748B),
+                  color: isSelected ? const Color(0xFF1E2548) : const Color(0xFF64748B),
                 ),
               ),
             ],
@@ -326,159 +534,73 @@ class _AnimatedAuthScreenState extends State<AnimatedAuthScreen>
       ),
     );
   }
+}
 
-  Widget _buildTeacherLoginForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextField(
-          controller: TextEditingController(text: 'الأستاذ شعبان المنهراوي'),
-          readOnly: true,
-          decoration: InputDecoration(
-            labelText: 'اسم الحساب',
-            prefixIcon: const Icon(Icons.verified_user_rounded, color: Color(0xFF4338CA)),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'كلمة المرور',
-            prefixIcon: const Icon(Icons.lock_rounded, color: Color(0xFF4338CA)),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton.icon(
-          onPressed: () {
-            _performAnimatedLogin(() {
-              widget.appState.loginAsTeacher();
-            });
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF4338CA),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            elevation: 3,
-          ),
-          icon: const Icon(Icons.login_rounded),
-          label: const Text(
-            'دخول لوحة تحكم المعلم 🚀',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-          ),
-        ),
-      ],
-    );
+/// الرسام الهندسي لشبكة الخطوط والنقاط الكوكبية في الخلفية (Plexus / Constellation)
+class _ConstellationPainter extends CustomPainter {
+  static const List<Offset> _normalizedNodes = [
+    Offset(0.08, 0.12),
+    Offset(0.18, 0.16),
+    Offset(0.14, 0.35),
+    Offset(0.06, 0.42),
+    Offset(0.10, 0.75),
+    Offset(0.05, 0.85),
+    Offset(0.82, 0.14),
+    Offset(0.92, 0.18),
+    Offset(0.78, 0.28),
+    Offset(0.88, 0.38),
+    Offset(0.95, 0.44),
+    Offset(0.72, 0.70),
+    Offset(0.85, 0.78),
+    Offset(0.90, 0.88),
+    Offset(0.78, 0.92),
+    Offset(0.25, 0.88),
+    Offset(0.35, 0.92),
+    Offset(0.20, 0.22),
+    Offset(0.30, 0.10),
+    Offset(0.70, 0.10),
+    Offset(0.60, 0.16),
+    Offset(0.82, 0.60),
+    Offset(0.15, 0.60),
+    Offset(0.48, 0.08),
+    Offset(0.52, 0.92),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final actualPoints = _normalizedNodes
+        .map((p) => Offset(p.dx * size.width, p.dy * size.height))
+        .toList();
+
+    // رسم الخطوط الهندسية الرفيعة بين النقاط القريبة
+    final maxDist = size.width * 0.22;
+    for (int i = 0; i < actualPoints.length; i++) {
+      for (int j = i + 1; j < actualPoints.length; j++) {
+        final dist = (actualPoints[i] - actualPoints[j]).distance;
+        if (dist < maxDist) {
+          final alpha = (1.0 - (dist / maxDist)).clamp(0.04, 0.18);
+          final linePaint = Paint()
+            ..color = const Color(0xFF93C5FD).withValues(alpha: alpha)
+            ..strokeWidth = 1.0;
+          canvas.drawLine(actualPoints[i], actualPoints[j], linePaint);
+        }
+      }
+    }
+
+    // رسم النقاط الكوكبية مع توهج ناعم
+    final dotPaint = Paint()
+      ..color = const Color(0xFFFBBF24).withValues(alpha: 0.45)
+      ..style = PaintingStyle.fill;
+    final dotGlow = Paint()
+      ..color = const Color(0xFF60A5FA).withValues(alpha: 0.25)
+      ..style = PaintingStyle.fill;
+
+    for (final p in actualPoints) {
+      canvas.drawCircle(p, 3.5, dotGlow);
+      canvas.drawCircle(p, 1.8, dotPaint);
+    }
   }
 
-  Widget _buildStudentLoginForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DropdownButtonFormField<Student>(
-          value: _selectedStudent,
-          decoration: InputDecoration(
-            labelText: 'اختر حساب الطالب',
-            prefixIcon: const Icon(Icons.badge_rounded, color: Color(0xFF4338CA)),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          items: widget.appState.students.map((s) {
-            return DropdownMenuItem<Student>(
-              value: s,
-              child: Text(
-                '${s.name} (${s.grade})',
-                style: const TextStyle(fontSize: 12.5),
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          }).toList(),
-          onChanged: (val) {
-            setState(() => _selectedStudent = val);
-          },
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton.icon(
-          onPressed: _selectedStudent == null
-              ? null
-              : () {
-                  _performAnimatedLogin(() {
-                    widget.appState.loginAsStudent(_selectedStudent!);
-                  });
-                },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF4338CA),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: const Icon(Icons.qr_code_2_rounded),
-          label: const Text(
-            'فتح ملف الطالب وكود الـ QR 🪪',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildParentLoginForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DropdownButtonFormField<Parent>(
-          value: _selectedParent,
-          decoration: InputDecoration(
-            labelText: 'اختر حساب ولي الأمر',
-            prefixIcon: const Icon(Icons.family_restroom_rounded, color: Color(0xFF4338CA)),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          items: widget.appState.parents.map((p) {
-            return DropdownMenuItem<Parent>(
-              value: p,
-              child: Text(
-                '${p.name} (${p.phone})',
-                style: const TextStyle(fontSize: 12.5),
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          }).toList(),
-          onChanged: (val) {
-            setState(() => _selectedParent = val);
-          },
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton.icon(
-          onPressed: _selectedParent == null
-              ? null
-              : () {
-                  _performAnimatedLogin(() {
-                    widget.appState.loginAsParent(_selectedParent!);
-                  });
-                },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF4338CA),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: const Icon(Icons.notifications_active_rounded),
-          label: const Text(
-            'دخول لمتابعة حضور الأبناء 🔔',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-          ),
-        ),
-      ],
-    );
-  }
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

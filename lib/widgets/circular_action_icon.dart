@@ -34,7 +34,7 @@ class _CircularActionIconState extends State<CircularActionIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final secColor = widget.secondaryColor ?? widget.primaryColor.withOpacity(0.85);
+    final secColor = widget.secondaryColor ?? widget.primaryColor.withValues(alpha: 0.85);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -72,7 +72,7 @@ class _CircularActionIconState extends State<CircularActionIcon> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: widget.primaryColor.withOpacity(_isHovered ? 0.45 : 0.25),
+                          color: widget.primaryColor.withValues(alpha: _isHovered ? 0.45 : 0.25),
                           blurRadius: _isHovered ? 20 : 12,
                           offset: const Offset(0, 6),
                         ),
@@ -99,7 +99,7 @@ class _CircularActionIconState extends State<CircularActionIcon> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.redAccent.withOpacity(0.4),
+                              color: Colors.redAccent.withValues(alpha: 0.4),
                               blurRadius: 6,
                             ),
                           ],
