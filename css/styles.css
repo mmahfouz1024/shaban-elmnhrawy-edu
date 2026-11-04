@@ -1,59 +1,46 @@
 /* ==========================================================================
-   نظام الأستاذ شعبان المنهراوي لإدارة طلاب المرحلتين الابتدائية والإعدادية
-   وأولياء الأمور والـ QR Code والحضور والانصراف وإشعارات الواتساب والحسابات والماليات
+   منصة الأستاذ شعبان المنهراوي - التصميم العصري والمبسط فائق الأناقة
+   تصميم مريح للعين، واضح، غير مشتت، وسهل الاستخدام 100%
    ========================================================================== */
 
 :root {
-  --bg-main: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-elevated: #f8fafc;
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-light: #64748b;
-  --border-color: #e2e8f0;
-
+  --font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  --bg-body: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  
   --primary: #0f766e;
-  --primary-dark: #115e59;
-  --primary-light: #ccfbf1;
+  --primary-hover: #115e59;
+  --primary-light: #f0fdfa;
+  --primary-border: #ccfbf1;
 
-  --indigo: #4338ca;
-  --indigo-light: #e0e7ff;
+  --accent-blue: #2563eb;
+  --accent-blue-light: #eff6ff;
 
-  --amber: #d97706;
-  --amber-light: #fef3c7;
+  --success: #16a34a;
+  --success-light: #f0fdf4;
+  
+  --warning: #d97706;
+  --warning-light: #fffbeb;
 
-  --emerald: #059669;
-  --emerald-light: #d1fae5;
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
 
-  --rose: #e11d48;
-  --rose-light: #ffe4e6;
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
 
-  --whatsapp: #25d366;
-  --whatsapp-dark: #075e54;
-  --whatsapp-chat-bg: #efeae2;
-  --whatsapp-bubble: #d9fdd3;
+  --border-light: #e2e8f0;
+  --border-focus: #0f766e;
 
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-}
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
 
-body.dark-mode {
-  --bg-main: #0b1120;
-  --bg-card: #1e293b;
-  --bg-elevated: #0f172a;
-  --text-main: #f8fafc;
-  --text-muted: #cbd5e1;
-  --text-light: #94a3b8;
-  --border-color: #334155;
-  --primary-light: rgba(20, 184, 166, 0.18);
-  --indigo-light: rgba(99, 102, 241, 0.2);
-  --amber-light: rgba(245, 158, 11, 0.2);
-  --emerald-light: rgba(16, 185, 129, 0.2);
-  --rose-light: rgba(244, 63, 94, 0.2);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
 }
 
 * {
@@ -63,371 +50,387 @@ body.dark-mode {
 }
 
 body {
-  font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
-  background-color: var(--bg-main);
+  font-family: var(--font-family);
+  background-color: var(--bg-body);
   color: var(--text-main);
   direction: rtl;
   text-align: right;
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
-/* شريط تبديل البوابات العلوي (الأستاذ | الطالب | ولي الأمر | استوديو المحاكاة الحية) */
-.portal-switcher-bar {
-  background: linear-gradient(135deg, #0f172a 0%, #134e4a 60%, #1e1b4b 100%);
-  color: #ffffff;
-  padding: 10px 20px;
+/* ==========================================================================
+   1. شريط التنقل العلوي النظيف والبسيط (Clean Minimal Top Bar)
+   ========================================================================== */
+.app-topbar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
 }
 
-.brand-header {
+.topbar-brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.brand-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #14b8a6, #0d9488);
+.brand-icon-box {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: #ffffff;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.4);
-}
-
-.brand-title h1 {
-  font-size: 1.08rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0;
-}
-
-.brand-title p {
-  font-size: 0.78rem;
-  color: #99f6e4;
-  margin: 0;
-}
-
-.portal-tabs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.portal-tab-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e2e8f0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.86rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  transition: all 0.2s ease;
-}
-
-.portal-tab-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-}
-
-.portal-tab-btn.active {
-  background: #14b8a6;
-  color: #042f2e;
-  border-color: #2dd4bf;
-  box-shadow: 0 0 14px rgba(45, 212, 191, 0.5);
-}
-
-.portal-tab-btn.studio-tab.active {
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
-  color: #0f172a;
-  border-color: #fde68a;
-}
-
-.notif-badge-pill {
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.72rem;
-  padding: 1px 7px;
-  border-radius: 999px;
-  font-weight: 800;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* الهيكل الرئيسي للوحة المعلم (الأدمن) */
-.app-layout {
-  display: grid;
-  grid-template-columns: 270px 1fr;
-  min-height: calc(100vh - 66px);
-}
-
-.sidebar {
-  background: var(--bg-card);
-  border-left: 1px solid var(--border-color);
-  padding: 18px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.sidebar-section-label {
-  font-size: 0.74rem;
-  font-weight: 800;
-  color: var(--text-light);
-  padding: 8px 12px 4px;
-  letter-spacing: 0.3px;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: none;
-  background: transparent;
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  text-align: right;
-  width: 100%;
-}
-
-.nav-item-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nav-item:hover {
-  background: var(--bg-elevated);
-  color: var(--primary);
-}
-
-.nav-item.active {
-  background: var(--primary);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.28);
-}
-
-.nav-badge {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--bg-elevated);
-  color: var(--text-muted);
-  font-weight: 800;
-}
-
-.nav-item.active .nav-badge {
-  background: rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-}
-
-.main-content {
-  padding: 22px 26px;
-  overflow-y: auto;
-}
-
-/* البطاقات الإحصائية (KPI Cards) */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 18px;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.stat-info h4 {
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.stat-info .stat-value {
-  font-size: 1.55rem;
   font-weight: 900;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
+}
+
+.brand-meta h1 {
+  font-size: 1.05rem;
+  font-weight: 800;
   color: var(--text-main);
   line-height: 1.2;
 }
 
-.stat-info .stat-sub {
+.brand-meta p {
   font-size: 0.76rem;
-  color: var(--text-light);
-  margin-top: 6px;
+  color: var(--text-secondary);
 }
 
-.stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+.topbar-user {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  flex-shrink: 0;
-}
-
-.stat-icon.teal { background: var(--primary-light); color: var(--primary); }
-.stat-icon.indigo { background: var(--indigo-light); color: var(--indigo); }
-.stat-icon.emerald { background: var(--emerald-light); color: var(--emerald); }
-.stat-icon.amber { background: var(--amber-light); color: var(--amber); }
-.stat-icon.rose { background: var(--rose-light); color: var(--rose); }
-
-/* حاويات الأقسام (Panels & Cards) */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 20px;
-  overflow: hidden;
-}
-
-.card-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 12px;
-  background: var(--bg-elevated);
 }
 
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 800;
+.user-pill {
   display: flex;
   align-items: center;
   gap: 8px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-.card-body {
-  padding: 20px;
+/* ==========================================================================
+   2. شاشة تسجيل الدخول الأنيقة والمبسطة (Login Screen)
+   ========================================================================== */
+.login-wrapper {
+  min-height: calc(100vh - 66px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-/* الأزرار (Buttons) */
+.login-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 480px;
+  padding: 32px 28px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-header-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 12px;
+  border: 1px solid var(--primary-border);
+}
+
+.login-header h2 {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.login-header p {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+/* التبديل بين صفة المستخدم: معلم / طالب / ولي أمر */
+.role-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: var(--bg-subtle);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  gap: 4px;
+  margin-bottom: 22px;
+}
+
+.role-tab-btn {
+  border: none;
+  background: transparent;
+  padding: 9px 6px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.role-tab-btn.active {
+  background: var(--bg-surface);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   3. الحقول والأزرار العصرية (Inputs & Buttons)
+   ========================================================================== */
+.form-group {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  padding: 8px 15px;
-  border-radius: 9px;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
   font-family: inherit;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 700;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.15s ease;
   text-decoration: none;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn-sm {
-  padding: 5px 10px;
-  font-size: 0.78rem;
-  border-radius: 7px;
-}
-
-.btn-lg {
-  padding: 12px 22px;
-  font-size: 0.98rem;
-  border-radius: 12px;
 }
 
 .btn-primary {
   background: var(--primary);
   color: #ffffff;
 }
-.btn-primary:hover { background: var(--primary-dark); }
-
-.btn-indigo {
-  background: var(--indigo);
-  color: #ffffff;
+.btn-primary:hover {
+  background: var(--primary-hover);
 }
 
-.btn-success {
-  background: var(--emerald);
-  color: #ffffff;
+.btn-block {
+  width: 100%;
 }
 
-.btn-warning {
-  background: var(--amber);
-  color: #ffffff;
+.btn-secondary {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border-color: var(--border-light);
+}
+.btn-secondary:hover {
+  background: #e2e8f0;
 }
 
-.btn-danger {
-  background: var(--rose);
-  color: #ffffff;
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
 }
 
 .btn-whatsapp {
-  background: var(--whatsapp);
-  color: #052e16;
+  background: #25d366;
+  color: #064e3b;
   font-weight: 800;
 }
 .btn-whatsapp:hover {
-  background: #1ebe5d;
-  color: #fff;
+  background: #22c55e;
 }
 
-.btn-outline {
+.quick-test-box {
+  margin-top: 18px;
+  padding: 12px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-light);
+}
+
+.quick-test-box p {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   4. الهيكل الرئيسي للوحة المعلم بعد الدخول (Simple Admin Layout)
+   ========================================================================== */
+.admin-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+.admin-nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 6px 10px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.nav-pill {
+  border: none;
   background: transparent;
-  border-color: var(--border-color);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.nav-pill:hover {
+  background: var(--bg-subtle);
   color: var(--text-main);
 }
-.btn-outline:hover {
-  background: var(--bg-elevated);
+
+.nav-pill.active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* بطاقات الإحصائيات (Stat Cards) */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-card-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.metric-card-value {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.metric-card-sub {
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* البطاقة العامة (Clean Card) */
+.panel-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #fafafa;
+}
+
+.panel-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-body {
+  padding: 18px 20px;
 }
 
 /* الشارات (Badges) */
@@ -435,478 +438,255 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 10px;
+  padding: 2px 8px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
 }
 
 .badge-primary-stage {
-  background: var(--emerald-light);
-  color: var(--emerald);
+  background: var(--success-light);
+  color: var(--success);
 }
 
 .badge-prep-stage {
-  background: var(--indigo-light);
-  color: var(--indigo);
+  background: var(--accent-blue-light);
+  color: var(--accent-blue);
 }
 
 .badge-present {
-  background: var(--emerald-light);
-  color: var(--emerald);
+  background: var(--success-light);
+  color: var(--success);
 }
 
 .badge-departed {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
 }
 
 .badge-unpaid {
-  background: var(--rose-light);
-  color: var(--rose);
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
-.badge-partial {
-  background: var(--amber-light);
-  color: var(--amber);
-}
-
-/* الجداول (Tables) */
+/* الجداول (Data Tables) */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
 }
 
-table.data-table {
+table.clean-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.87rem;
+  font-size: 0.86rem;
 }
 
-table.data-table th,
-table.data-table td {
-  padding: 11px 13px;
-  border-bottom: 1px solid var(--border-color);
+table.clean-table th,
+table.clean-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-light);
   text-align: right;
   vertical-align: middle;
 }
 
-table.data-table th {
-  background: var(--bg-elevated);
-  color: var(--text-muted);
-  font-weight: 800;
+table.clean-table th {
+  background: #fafafa;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.78rem;
   white-space: nowrap;
 }
 
-table.data-table tr:hover td {
-  background: rgba(15, 118, 110, 0.03);
-}
-
-/* حقول الإدخال والفلاتر (Forms & Inputs) */
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.form-group label {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.form-control {
-  padding: 9px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-card);
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 0.88rem;
-  outline: none;
-  transition: border-color 0.18s;
-}
-
-.form-control:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+table.clean-table tr:hover td {
+  background: #fdfdfd;
 }
 
 /* ==========================================================================
-   كارنيه الطالب الذكي وشاشة الـ QR Code الخاصة بكل طالب
+   5. شاشة الماسح الضوئي المبسطة للأستاذ (Scanner View)
    ========================================================================== */
-.student-id-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-  border: 2px solid #0f766e;
-  border-radius: 18px;
-  max-width: 440px;
-  margin: 0 auto;
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(15, 118, 110, 0.15);
-  color: #0f172a;
-}
-
-.student-id-header {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 55%, #1e1b4b 100%);
-  color: #ffffff;
-  padding: 16px 18px;
-  text-align: center;
-  position: relative;
-}
-
-.student-id-header h3 {
-  font-size: 1.05rem;
-  font-weight: 900;
-  margin-bottom: 2px;
-}
-
-.student-id-header p {
-  font-size: 0.76rem;
-  color: #99f6e4;
-}
-
-.student-id-body {
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.qr-frame-box {
-  background: #ffffff;
-  padding: 12px;
-  border-radius: 14px;
-  border: 2px dashed #0f766e;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-}
-
-.qr-frame-box svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-.student-info-list {
-  width: 100%;
-  background: #f1f5f9;
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 0.84rem;
+.scanner-container-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px 12px;
-}
-
-.student-info-list .full-row {
-  grid-column: 1 / -1;
-}
-
-.student-info-item span.label {
-  color: #64748b;
-  font-size: 0.75rem;
-  display: block;
-}
-
-.student-info-item strong {
-  color: #0f172a;
-  font-weight: 800;
-}
-
-/* ==========================================================================
-   شاشة الماسح الضوئي للأستاذ (Admin QR Scanner Viewport)
-   ========================================================================== */
-.scanner-layout {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
   gap: 20px;
 }
 
-.scanner-viewport-box {
+.scanner-view-box {
   background: #0f172a;
-  border-radius: 16px;
-  padding: 20px;
   color: #ffffff;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #14b8a6;
-  min-height: 360px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+
+.laser-scanner-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: #2dd4bf;
+  box-shadow: 0 0 12px #2dd4bf;
+  animation: scanLaser 2s infinite ease-in-out;
+}
+
+@keyframes scanLaser {
+  0% { top: 15%; }
+  50% { top: 85%; }
+  100% { top: 15%; }
+}
+
+/* ==========================================================================
+   6. بطاقة الطالب والـ QR Code (Student ID Card)
+   ========================================================================== */
+.student-qr-card-view {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  max-width: 420px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
   text-align: center;
 }
 
-.scanner-laser-line {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #2dd4bf, #ef4444, #2dd4bf, transparent);
-  box-shadow: 0 0 14px #2dd4bf, 0 0 24px #ef4444;
-  animation: laserScanMove 2.4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 5;
-}
-
-@keyframes laserScanMove {
-  0% { top: 14%; opacity: 0.85; }
-  50% { top: 84%; opacity: 1; }
-  100% { top: 14%; opacity: 0.85; }
-}
-
-.scanner-video-el {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  border: 2px solid #2dd4bf;
-  display: none;
-}
-
-/* ==========================================================================
-   محاكي شاشة موبايل واتساب ولي الأمر الحي (WhatsApp Live Phone Preview)
-   ========================================================================== */
-.whatsapp-phone-frame {
-  background: #111b21;
-  border-radius: 26px;
-  padding: 10px;
-  border: 4px solid #334155;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.whatsapp-phone-header {
-  background: var(--whatsapp-dark);
+.student-card-banner {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: #ffffff;
-  padding: 12px 14px;
-  border-radius: 18px 18px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.whatsapp-contact-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.whatsapp-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #25d366;
-  color: #052e16;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 1rem;
-}
-
-.whatsapp-chat-screen {
-  background-color: var(--whatsapp-chat-bg);
-  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
-  background-size: 16px 16px;
-  padding: 14px;
-  min-height: 290px;
-  max-height: 380px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.whatsapp-msg-bubble {
-  background: var(--whatsapp-bubble);
-  color: #111b21;
-  padding: 10px 13px;
-  border-radius: 12px 2px 12px 12px;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-  white-space: pre-line;
-  position: relative;
-}
-
-.whatsapp-msg-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-  font-size: 0.7rem;
-  color: #54656f;
-  margin-top: 5px;
-}
-
-.whatsapp-checks {
-  color: #0284c7;
-  font-weight: 900;
-}
-
-.whatsapp-phone-footer {
-  background: #f0f2f5;
-  padding: 10px 12px;
-  border-radius: 0 0 18px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-/* ==========================================================================
-   استوديو التجربة الحية الشاملة (4 شاشات متزامنة في وقت واحد)
-   ========================================================================== */
-.studio-4way-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-  gap: 18px;
-}
-
-.studio-step-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #fff;
-  font-weight: 900;
-  font-size: 0.82rem;
-}
-
-/* النوافذ المنبثقة (Modals) والتنبيهات اللحظية (Toasts) */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(3px);
-  z-index: 2000;
-  display: none;
-  align-items: center;
-  justify-content: center;
   padding: 18px;
 }
 
-.modal-backdrop.open {
-  display: flex;
+.student-card-banner h3 {
+  font-size: 1.1rem;
+  font-weight: 900;
 }
 
-.modal-dialog {
-  background: var(--bg-card);
+.student-card-banner p {
+  font-size: 0.76rem;
+  color: #ccfbf1;
+}
+
+.student-card-content {
+  padding: 22px;
+}
+
+.qr-code-holder {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--primary);
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.qr-code-holder svg {
+  display: block;
+}
+
+.student-meta-list {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+.student-meta-list .full-span {
+  grid-column: 1 / -1;
+}
+
+.student-meta-list span.title {
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  display: block;
+}
+
+/* ==========================================================================
+   7. مركز إشعارات ولي الأمر النظيف (Parent Notifications Feed)
+   ========================================================================== */
+.notification-feed-item {
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  border-right: 4px solid var(--primary);
+  margin-bottom: 12px;
+  transition: all 0.15s ease;
+}
+
+.notification-feed-item.unread {
+  background: var(--primary-light);
+  border-right-color: var(--primary);
+}
+
+.notification-feed-item h4 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  margin-bottom: 4px;
   color: var(--text-main);
-  width: 100%;
-  max-width: 720px;
-  max-height: 90vh;
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  overflow-y: auto;
-  border: 1px solid var(--border-color);
 }
 
-.modal-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-elevated);
+.notification-feed-item p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
 }
 
-.modal-body {
-  padding: 20px;
-}
-
-.modal-footer {
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  background: var(--bg-elevated);
-}
-
-.toast-container {
+/* Toast Alerts */
+.toast-box {
   position: fixed;
-  bottom: 22px;
-  left: 22px;
-  z-index: 3000;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 400px;
+  gap: 8px;
 }
 
-.toast-item {
+.toast-msg {
   background: #0f172a;
   color: #ffffff;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border-right: 5px solid #14b8a6;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  border-right: 4px solid var(--primary);
   font-size: 0.86rem;
-  animation: slideUpToast 0.25s ease;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.2s ease;
 }
 
-@keyframes slideUpToast {
-  from { transform: translateY(20px); opacity: 0; }
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-@media (max-width: 992px) {
-  .app-layout {
+@media (max-width: 768px) {
+  .scanner-container-grid {
     grid-template-columns: 1fr;
   }
-  .sidebar {
-    border-left: none;
-    border-bottom: 1px solid var(--border-color);
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 10px;
+  .app-topbar {
+    padding: 10px 14px;
   }
-  .sidebar-section-label {
-    display: none;
-  }
-  .nav-item {
-    width: auto;
-    white-space: nowrap;
-  }
-  .scanner-layout {
-    grid-template-columns: 1fr;
+  .role-tabs {
+    font-size: 0.78rem;
   }
 }
 
 @media print {
-  .portal-switcher-bar,
-  .sidebar,
+  .app-topbar,
+  .admin-nav-bar,
   .no-print {
     display: none !important;
   }
-  .app-layout {
-    display: block;
-  }
-  .main-content {
-    padding: 0;
+  body {
+    background: #ffffff;
   }
 }

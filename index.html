@@ -3,120 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة الأستاذ شعبان المنهراوي | إدارة الطلاب والـ QR Code والحضور والماليات</title>
+  <title>منصة الأستاذ شعبان المنهراوي التعليمية | نظام الـ QR Code والحضور والحسابات</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 </head>
 <body>
 
-  <!-- شريط التبديل العلوي للبوابات (الأستاذ | الطالب | ولي الأمر | استوديو المحاكاة الحية) -->
-  <header class="portal-switcher-bar">
-    <div class="brand-header">
-      <div class="brand-logo">ش</div>
-      <div class="brand-title">
-        <h1>الأستاذ شعبان المنهراوي</h1>
-        <p>نظام إدارة الطلاب بالـ QR Code • المرحلة الابتدائية والإعدادية • إشعارات الواتساب والماليات</p>
+  <!-- شريط التنقل العلوي النظيف -->
+  <header class="app-topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon-box">ش</div>
+      <div class="brand-meta">
+        <h1>منصة الأستاذ شعبان المنهراوي</h1>
+        <p>المرحلة الابتدائية والإعدادية • الحضور الذكي بالـ QR Code والماليات</p>
       </div>
     </div>
 
-    <!-- أزرار التبديل الفوري بين البوابات -->
-    <div class="portal-tabs">
-      <button class="portal-tab-btn active" data-portal="admin" onclick="App.switchPortal('admin')">
-        👨‍🏫 لوحة المعلم (الأدمن)
-      </button>
-      <button class="portal-tab-btn" data-portal="student" onclick="App.switchPortal('student')">
-        👨‍🎓 بوابة الطالب (الملف والـ QR)
-      </button>
-      <button class="portal-tab-btn" data-portal="parent" onclick="App.switchPortal('parent')">
-        👨‍👩‍👧‍👦 بوابة ولي الأمر (الإشعارات)
-        <span class="notif-badge-pill" id="parent-portal-notif-pill" style="display:none;">0</span>
-      </button>
-      <button class="portal-tab-btn studio-tab" data-portal="studio" onclick="App.switchPortal('studio')">
-        🎬 استوديو المحاكاة الحية (4 شاشات)
-      </button>
-    </div>
-
-    <!-- شارة حالة الخادم والتبديل للمظهر الليلي -->
-    <div class="header-actions">
-      <span id="server-status-badge" class="badge badge-primary-stage">
-        ● جاري فحص الاتصال...
-      </span>
-      <button class="btn btn-outline btn-sm" onclick="document.body.classList.toggle('dark-mode')" title="تبديل الوضع الليلي / الفاتح" style="color:#fff; border-color:rgba(255,255,255,0.2);">
-        🌓
-      </button>
+    <!-- معلومات المستخدم الحالي وزر تسجيل الخروج -->
+    <div class="topbar-user" id="topbar-user-area">
+      <!-- يتم حقنها برمجياً عند تسجيل الدخول -->
     </div>
   </header>
 
-  <!-- 1. لوحة المعلم (الأدمن) - Admin Portal -->
-  <main id="admin-portal" class="app-layout">
-    <aside class="sidebar">
-      <div class="sidebar-section-label">لوحة التحكم الرئيسية</div>
-      <button class="nav-item active" data-tab="dashboard" onclick="App.navigateToAdminTab('dashboard')">
-        <span class="nav-item-right">📊 لوحة القيادة العامة</span>
-      </button>
-      <button class="nav-item" data-tab="scanner" onclick="App.navigateToAdminTab('scanner')">
-        <span class="nav-item-right">📷 ماسح الـ QR الذكي</span>
-        <span class="nav-badge" style="background:#14b8a6; color:#042f2e;">سريع ⚡</span>
-      </button>
-
-      <div class="sidebar-section-label">إدارة الطلاب والمجموعات</div>
-      <button class="nav-item" data-tab="students" onclick="App.navigateToAdminTab('students')">
-        <span class="nav-item-right">👨‍🎓 سجل الطلاب والكارنيهات</span>
-      </button>
-      <button class="nav-item" data-tab="parents" onclick="App.navigateToAdminTab('parents')">
-        <span class="nav-item-right">👨‍👩‍👧‍👦 بيانات أولياء الأمور</span>
-      </button>
-      <button class="nav-item" data-tab="groups" onclick="App.navigateToAdminTab('groups')">
-        <span class="nav-item-right">📚 المجموعات (ابتدائي وإعدادي)</span>
-      </button>
-      <button class="nav-item" data-tab="attendance" onclick="App.navigateToAdminTab('attendance')">
-        <span class="nav-item-right">📋 سجل الحضور والانصراف</span>
-      </button>
-
-      <div class="sidebar-section-label">الماليات والتواصل</div>
-      <button class="nav-item" data-tab="finances" onclick="App.navigateToAdminTab('finances')">
-        <span class="nav-item-right">💰 الحسابات والاشتراكات</span>
-      </button>
-      <button class="nav-item" data-tab="whatsapp" onclick="App.navigateToAdminTab('whatsapp')">
-        <span class="nav-item-right">📲 إشعارات الواتساب</span>
-      </button>
-      <button class="nav-item" data-tab="settings" onclick="App.navigateToAdminTab('settings')">
-        <span class="nav-item-right">⚙️ إعدادات النظام والقوالب</span>
-      </button>
-
-      <div style="margin-top:auto; padding:12px; background:var(--bg-elevated); border-radius:10px; border:1px solid var(--border-color); font-size:0.75rem;">
-        <strong style="display:block; margin-bottom:4px;">سنتر أ. شعبان المنهراوي</strong>
-        <span style="color:var(--text-light);">العام الدراسي 2026 / 2027</span>
+  <!-- =====================================================================
+       1. شاشة تسجيل الدخول الموحدة (Login Screen)
+       ===================================================================== -->
+  <section id="login-view" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-header-icon" id="login-role-icon">👨‍🏫</div>
+        <h2>تسجيل الدخول للنظام</h2>
+        <p id="login-role-desc">اختر صفة الدخول للمتابعة</p>
       </div>
-    </aside>
 
-    <section class="main-content" id="admin-main-viewport">
-      <!-- يتم حقن أقسام لوحة المعلم ديناميكياً هنا عبر App.js -->
+      <!-- تبويب اختيار صفة المستخدم -->
+      <div class="role-tabs">
+        <button class="role-tab-btn active" data-role="teacher" onclick="App.selectLoginRole('teacher')">
+          <span style="font-size:1.1rem;">👨‍🏫</span>
+          <span>المعلم / الإدارة</span>
+        </button>
+        <button class="role-tab-btn" data-role="student" onclick="App.selectLoginRole('student')">
+          <span style="font-size:1.1rem;">👨‍🎓</span>
+          <span>الطالب</span>
+        </button>
+        <button class="role-tab-btn" data-role="parent" onclick="App.selectLoginRole('parent')">
+          <span style="font-size:1.1rem;">👨‍👩‍👧‍👦</span>
+          <span>ولي الأمر</span>
+        </button>
+      </div>
+
+      <!-- نموذج تسجيل الدخول للمعلم -->
+      <form id="teacher-login-form" onsubmit="event.preventDefault(); App.loginAsTeacher();">
+        <div class="form-group">
+          <label class="form-label">اسم المستخدم أو الحساب:</label>
+          <input type="text" id="teacher-username" class="form-input" value="الأستاذ شعبان المنهراوي" readonly style="background:var(--bg-subtle);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">كلمة المرور:</label>
+          <input type="password" id="teacher-password" class="form-input" value="admin" placeholder="أدخل كلمة المرور (افتراضي: admin)">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding:12px; font-size:0.95rem;">
+          تسجيل الدخول إلى لوحة المعلم 🚀
+        </button>
+      </form>
+
+      <!-- نموذج تسجيل الدخول للطالب -->
+      <form id="student-login-form" style="display:none;" onsubmit="event.preventDefault(); App.loginAsStudent();">
+        <div class="form-group">
+          <label class="form-label">اختر حساب الطالب (أو أدخل كود الطالب):</label>
+          <select id="student-login-select" class="form-input">
+            <!-- يتم تعبئتها من قائمة الطلاب -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">أو أدخل كود الطالب يدوياً:</label>
+          <input type="text" id="student-code-input" class="form-input" placeholder="مثال: STU-2026-1001">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding:12px; font-size:0.95rem;">
+          فتح ملف الطالب وإظهار الـ QR Code 🪪
+        </button>
+      </form>
+
+      <!-- نموذج تسجيل الدخول لولي الأمر -->
+      <form id="parent-login-form" style="display:none;" onsubmit="event.preventDefault(); App.loginAsParent();">
+        <div class="form-group">
+          <label class="form-label">اختر حساب ولي الأمر (أو أدخل رقم الموبايل):</label>
+          <select id="parent-login-select" class="form-input">
+            <!-- يتم تعبئتها من قائمة أولياء الأمور -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">أو أدخل رقم الموبايل / كود الدخول:</label>
+          <input type="text" id="parent-phone-input" class="form-input" placeholder="مثال: 01011223344">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding:12px; font-size:0.95rem;">
+          دخول بوابة ولي الأمر ومتابعة الأبناء 🔔
+        </button>
+      </form>
+
+      <!-- مربع الدخول السريع التجريبي بنقرة واحدة -->
+      <div class="quick-test-box">
+        <p>💡 دخول سريع للتجربة بنقرة واحدة:</p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="App.quickLogin('teacher')">دخول المعلم</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="App.quickLogin('student')">دخول طالب تجريبي</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="App.quickLogin('parent')">دخول ولي أمر تجريبي</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       2. واجهة المعلم المبسطة والأنيقة (Teacher / Admin View)
+       ===================================================================== -->
+  <main id="teacher-view" class="admin-container" style="display:none;">
+    <!-- شريط التبويبات الأفقي المبسط والواضح -->
+    <nav class="admin-nav-bar">
+      <button class="nav-pill active" data-tab="dashboard" onclick="App.switchTeacherTab('dashboard')">
+        📊 لوحة المؤشرات
+      </button>
+      <button class="nav-pill" data-tab="scanner" onclick="App.switchTeacherTab('scanner')">
+        📷 ماسح الـ QR الذكي
+      </button>
+      <button class="nav-pill" data-tab="students" onclick="App.switchTeacherTab('students')">
+        👨‍🎓 الطلاب والكارنيهات
+      </button>
+      <button class="nav-pill" data-tab="parents" onclick="App.switchTeacherTab('parents')">
+        👨‍👩‍👧‍👦 أولياء الأمور والواتساب
+      </button>
+      <button class="nav-pill" data-tab="finances" onclick="App.switchTeacherTab('finances')">
+        💰 الحسابات والاشتراكات
+      </button>
+      <button class="nav-pill" data-tab="settings" onclick="App.switchTeacherTab('settings')">
+        ⚙️ الإعدادات وقوالب الرسائل
+      </button>
+    </nav>
+
+    <!-- مساحة المحتوى الخاص بتبويبات المعلم -->
+    <section id="teacher-tab-content">
+      <!-- يتم حقن المحتوى ديناميكياً هنا -->
     </section>
   </main>
 
-  <!-- 2. بوابة الطالب (ملفه وكارنيه الـ QR Code الخاص به) - Student Portal -->
-  <section id="student-portal" style="display:none; min-height:calc(100vh - 66px);">
-    <!-- يتم حقن شاشة الطالب والكارنيه ديناميكياً هنا -->
-  </section>
+  <!-- =====================================================================
+       3. واجهة الطالب المبسطة (Student View)
+       ===================================================================== -->
+  <main id="student-view" class="admin-container" style="display:none; max-width:800px;">
+    <!-- يتم حقن شاشة الطالب المحددة برمز الـ QR الخاص به وتاريخ حضوره -->
+  </main>
 
-  <!-- 3. بوابة ولي الأمر (مركز إشعارات الحضور والانصراف والواتساب) - Parent Portal -->
-  <section id="parent-portal" style="display:none; min-height:calc(100vh - 66px);">
-    <!-- يتم حقن شاشة ولي الأمر وتنبيهات الأبناء ديناميكياً هنا -->
-  </section>
-
-  <!-- 4. استوديو المحاكاة الحية (4 شاشات متزامنة للطالب والماسح والنظام وواتساب) - Studio Portal -->
-  <section id="studio-portal" style="display:none; min-height:calc(100vh - 66px);">
-    <!-- يتم حقن الاستوديو الرباعي ديناميكياً هنا -->
-  </section>
+  <!-- =====================================================================
+       4. واجهة ولي الأمر المبسطة (Parent View)
+       ===================================================================== -->
+  <main id="parent-view" class="admin-container" style="display:none; max-width:920px;">
+    <!-- يتم حقن شاشة ولي الأمر وتنبيهات الحضور والانصراف والواتساب -->
+  </main>
 
   <!-- حاوية التنبيهات الفورية (Toasts) -->
-  <div id="toast-container" class="toast-container"></div>
+  <div id="toast-box" class="toast-box"></div>
 
-  <!-- السكربتات المدمجة المتكاملة بدون أي مكتبات خارجية -->
+  <!-- حاوية النوافذ المنبثقة العامة (Modals) -->
+  <div id="app-modal-backdrop" style="position:fixed; inset:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(3px); z-index:2000; display:none; align-items:center; justify-content:center; padding:16px;"></div>
+
+  <!-- السكربتات المدمجة -->
   <script src="js/qrcode-engine.js"></script>
   <script src="js/seed-data.js"></script>
   <script src="js/app.js"></script>
